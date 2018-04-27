@@ -6,8 +6,11 @@ U-Net是Kaggle比赛非常青睐的模型，简单、高效、易懂，容易定
    NasNet）定位 + UNet-like 架构的分割，来做他们数据众包图像分割方向的主动学习，当时没有使用
    Mask-RCNN，因为靠近物体边缘的分割质量很低（[终于！Supervise.ly
    发布人像分割数据集啦（免费开源）](https://www.leiphone.com/news/201804/h2LP6OeEwgmGghER.html)）；
+
  - （2）Kaggle-卫星图像分割与识别。需要分割出：房屋和楼房；混杂的人工建筑；道路；铁路；树木；农作物；河流；积水区；大型车辆；小轿车。在U-Net基础上微调了一下。
    而且针对不同的图像类型，微调的地方不一样，就会有不同的分割模型，最后融合。（[Kaggle优胜者详解：如何用深度学习实现卫星图像分割与识别](https://zhuanlan.zhihu.com/p/26377387)）
+   
+
  - （3）广东政务数据创新大赛—智能算法赛
    。国土监察业务中须监管地上建筑物的建、拆、改、扩，高分辨率图像和智能算法以自动化完成工作。并且：八通道U-Net：直接输出房屋变化，可应对高层建筑倾斜问题；数据增强：增加模型泛化性，简单有效；加权损失函数：增强对新增建筑的检测能力；模型融合：取长补短，结果更全。（参考：[LiuDongjing/BuildingChangeDetector](https://github.com/LiuDongjing/BuildingChangeDetector)）
    ![这里写图片描述](https://img-blog.csdn.net/20180427144549445?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
@@ -20,6 +23,7 @@ U-Net是Kaggle比赛非常青睐的模型，简单、高效、易懂，容易定
    Segmentation](https://github.com/tensorflow/models/tree/master/research/deeplab)）、[Mask
    R-CNN](https://github.com/matterport/Mask_RCNN/)、COCO-16
    图像分割冠军的实例分割FCIS（[msracver/FCIS](https://github.com/msracver/FCIS)） 等。
+
 
 
 **跟目标检测需要准备的数据集不一样，因为图像分割是图像中实体的整个轮廓，所以标注的内容就是物体的掩膜。有两种标记方式：一种是提供单个物体的掩膜、一种是提供物体轮廓的标点。**
@@ -35,10 +39,15 @@ U-Net是Kaggle比赛非常青睐的模型，简单、高效、易懂，容易定
 ### 1.1 训练集的构造
 
 因为使用的是比赛数据，赛方已经很好地帮我们做好了前期数据整理的工作，所以目前来说可能很方便的制作训练集、测试集然后跑模型。这里下载得到的数据为提供图像中单个物体的掩膜。其中，笔者认为最麻烦的就是标注集的构造（掩膜）。
+
 原图：
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427163628216?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 掩膜图：
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427163828863?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 从掩膜列表可以到，比赛中是把每个细胞的掩膜都分开来了。来看一下这个掩膜标注内容如何：
 
 ```
@@ -98,7 +107,9 @@ Run-Length Encoding（RLE）行程长度的原理是将一扫描行中的颜色�
 '137795 3 138292 25 138802 29 139312 32 139823 34 140334 36 140845 38 141356 40 141867 42 142371 51 142881 54 143391 57 143902 59 144414 59 144925 61 145436 62 145948 63 146459 65 146970 66 147482 66 147994 66 148506 66 149017 67 149529 67 150041 67 150553 67 151065 67 151577 66 152089 66 152602 65 153114 64 153626 64 154138 63 154650 63 155162 63 155674 63 156187 62 156699 62 157212 60 157724 60 158236 60 158749 59 159261 59 159773 58 160285 58 160798 56 161310 56 161823 55 162335 54 162848 53 163361 52 163874 50 164387 49 164899 48 165412 47 165925 45 166439 42 166953 40 167466 38 167980 35 168495 31 169009 28 169522 26 170036 23 170549 21 171062 18 171577 12 172093 4'
 ```
 那么下图就是出来的结果了，第一张为原图，第二张为标注的掩膜图，第三张为预测图。
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427181653536?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 
 
 ----------
@@ -113,9 +124,12 @@ Run-Length Encoding（RLE）行程长度的原理是将一扫描行中的颜色�
 数据下载页面：[balloon_dataset.zip](https://github.com/matterport/Mask_RCNN/releases/download/v2.1/balloon_dataset.zip)
 该案例更为通用，因为比赛的训练集是比赛方写好的，一般实际训练的时候，掩膜都是没有给出的，而只是给出标记点，如：
 
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427182345370?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427182334487?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 
 此时的标注数据都放在json之中，譬如：
 
@@ -236,7 +250,9 @@ def display_instances(image, boxes, masks, class_names,
                       colors=None, captions=None):
 ```
 需要图像矩阵image，boxes代表每个实例的boxes，masks是图像的掩膜，class_names，是每张图标签的名称。下图是128*128像素的，很模糊，将就着看吧...
+
 ![这里写图片描述](https://img-blog.csdn.net/20180427224140215?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 
 随机颜色生成函数random_colors
 
@@ -260,8 +276,4 @@ def random_colors(N, bright=True):
 imshow(mask)
 plt.show()
 ```
-
-
-
-
 
