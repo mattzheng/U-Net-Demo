@@ -1,28 +1,23 @@
 # U-Net-Demo
 
+
 U-Net是Kaggle比赛非常青睐的模型，简单、高效、易懂，容易定制，可以从相对较小的训练集中学习。来看几个变形：
 
- - （1）[Supervise.ly](https://supervise.ly/) 公司。在用  Faster-RCNN（基于
-   NasNet）定位 + UNet-like 架构的分割，来做他们数据众包图像分割方向的主动学习，当时没有使用
-   Mask-RCNN，因为靠近物体边缘的分割质量很低（[终于！Supervise.ly
-   发布人像分割数据集啦（免费开源）](https://www.leiphone.com/news/201804/h2LP6OeEwgmGghER.html)）；
+ - （1）[Supervise.ly](https://supervise.ly/) 公司。
+ 在用  Faster-RCNN（基于   NasNet）定位 + UNet-like 架构的分割，来做他们数据众包图像分割方向的主动学习，当时没有使用   Mask-RCNN，因为靠近物体边缘的分割质量很低（[终于！Supervise.ly 发布人像分割数据集啦（免费开源）](https://www.leiphone.com/news/201804/h2LP6OeEwgmGghER.html)）；
 
- - （2）Kaggle-卫星图像分割与识别。需要分割出：房屋和楼房；混杂的人工建筑；道路；铁路；树木；农作物；河流；积水区；大型车辆；小轿车。在U-Net基础上微调了一下。
-   而且针对不同的图像类型，微调的地方不一样，就会有不同的分割模型，最后融合。（[Kaggle优胜者详解：如何用深度学习实现卫星图像分割与识别](https://zhuanlan.zhihu.com/p/26377387)）
+ - （2）Kaggle-卫星图像分割与识别。
+ 需要分割出：房屋和楼房；混杂的人工建筑；道路；铁路；树木；农作物；河流；积水区；大型车辆；小轿车。在U-Net基础上微调了一下。   而且针对不同的图像类型，微调的地方不一样，就会有不同的分割模型，最后融合。（[Kaggle优胜者详解：如何用深度学习实现卫星图像分割与识别](https://zhuanlan.zhihu.com/p/26377387)）
    
 
- - （3）广东政务数据创新大赛—智能算法赛
-   。国土监察业务中须监管地上建筑物的建、拆、改、扩，高分辨率图像和智能算法以自动化完成工作。并且：八通道U-Net：直接输出房屋变化，可应对高层建筑倾斜问题；数据增强：增加模型泛化性，简单有效；加权损失函数：增强对新增建筑的检测能力；模型融合：取长补短，结果更全。（参考：[LiuDongjing/BuildingChangeDetector](https://github.com/LiuDongjing/BuildingChangeDetector)）
+ - （3）广东政务数据创新大赛—智能算法赛 。
+ 国土监察业务中须监管地上建筑物的建、拆、改、扩，高分辨率图像和智能算法以自动化完成工作。并且：八通道U-Net：直接输出房屋变化，可应对高层建筑倾斜问题；数据增强：增加模型泛化性，简单有效；加权损失函数：增强对新增建筑的检测能力；模型融合：取长补短，结果更全。（参考：[LiuDongjing/BuildingChangeDetector](https://github.com/LiuDongjing/BuildingChangeDetector)）
    ![这里写图片描述](https://img-blog.csdn.net/20180427144549445?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI2OTE3Mzgz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
- - （4）Kaggle车辆边界识别——TernausNet。由VGG初始化权重 + U-Net网络，Kaggle Carvana Image
-   Masking Challenge 第一名，使用的预训练权重改进
-   U-Net，提升图像分割的效果。开源的代码在[ternaus/TernausNet](https://github.com/ternaus/TernausNet)
+ - （4）Kaggle车辆边界识别——TernausNet。
+ 由VGG初始化权重 + U-Net网络，Kaggle Carvana Image Masking Challenge 第一名，使用的预训练权重改进U-Net，提升图像分割的效果。开源的代码在[ternaus/TernausNet](https://github.com/ternaus/TernausNet)
    
    当然现在还有很多流行、好用的分割网络：谷歌的DeepLabv3+（[DeepLab: Deep Labelling for
-   Semantic Image
-   Segmentation](https://github.com/tensorflow/models/tree/master/research/deeplab)）、[Mask
-   R-CNN](https://github.com/matterport/Mask_RCNN/)、COCO-16
-   图像分割冠军的实例分割FCIS（[msracver/FCIS](https://github.com/msracver/FCIS)） 等。
+   Semantic Image  Segmentation](https://github.com/tensorflow/models/tree/master/research/deeplab)）、[Mask  R-CNN](https://github.com/matterport/Mask_RCNN/)、COCO-16  图像分割冠军的实例分割FCIS（[msracver/FCIS](https://github.com/msracver/FCIS)） 等。
 
 
 
